@@ -44,17 +44,18 @@ textarea{ /*  定义textarea边框样式  */
 	String.prototype.mtrim = function(){
 		return this.replace(/\s/g,"");
 	}
+	//格式化
 	function format(){
 		var str=document.getElementById("abstract").value;
 		str = str.mtrim();
 		if(str==""){
 			return ;
 		}
-		var cols = parseInt(document.getElementById("cols").value);
+		var cols = parseInt(document.getElementById("abstractionSource").value);
 		var textIndent = document.getElementById("textIndent").checked;
 		if(textIndent){
 			//append the source string with additional two blank characters at head;
-			str += "  "+str;
+			str = "  "+str;
 		}
 		var result = "";
 		for(var i=0;i<str.length;i++){
@@ -65,43 +66,13 @@ textarea{ /*  定义textarea边框样式  */
 				result += "\t";
 			}
 		}
-		document.getElementById("result").value = result;
+		setResultContent(result);
+		//document.getElementById("result").value = result;
+	}
+	function setResultContent(content){
+		document.getElementById("result").value = content;
 	}
 	
-	function format1(){
-		 var str=document.getElementById("abstract").value;
-		 str = str.mtrim();
-		 if(str==""){
-			return ;
-		}
-		 var cols=parseInt(document.getElementById("cols").value);
-		 //判断有多少行
-		 var rows=Math.ceil(str.length/cols);
-		 //构造表格
-		 var result="<table id='table' border='1'>";
-		 for(var i=0;i<rows;i++){
-			result+="<tr>"
-			for(var j=0;j<cols;j++){
-				result+="<td></td>";
-			}
-			result+="</tr>"
-		 }
-		 result+="</table>";
-		 document.getElementById("res").innerHTML=result
-
-		 //获取表格对象
-		 var tableobj=document.getElementById("table")
-		 for(var i=0;i<str.length;i++){
-			   //根据索引判断所在的行数
-			   var rowIndex=Math.floor(i/cols);
-			   //根据索引判断所在的列数
-			   var colIndex=i%cols;
-			   //根据rowIndex和colIndex填充表格
-			   tableobj.rows[rowIndex].childNodes[colIndex].innerText=str.charAt(i);
-
-		 }
-
-	 }
 </script>
 <body>
 	<div class="divmain">
@@ -111,8 +82,8 @@ textarea{ /*  定义textarea边框样式  */
 		首行缩进
 		<input id="textIndent" type="checkbox"></input>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		每行列数：
-		<input id="cols" type="text" value="13" size="1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		<input type="button" class="btn" value="格式化 >>" onclick="format()">
+		<input id="abstractionSource" type="text" value="13" size="1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<input type="button" class="btn" value="格式化 >>" onclick="setResultContent('');format()">
 		<input id="zeroCopy" type="button" class="btn" data-clipboard-target="result" value="复制结果 >>"><br/><br/>
 		<div id="res">
 			<textarea id="result" rows=15 readonly></textarea>
