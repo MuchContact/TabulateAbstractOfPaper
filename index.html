@@ -1,0 +1,124 @@
+﻿<!DOCTYPE html>
+<html>
+<meta content="text/html; charset=utf-8" ></meta>
+<style>
+body{
+	font-family: "微软雅黑", "Times New Roman", Georgia, Serif;
+}
+.divmain{
+	margin: 0 auto;
+	width: 960px;
+	//border: 1px solid #000;
+}
+.btn{
+	background-color: #8AC007;
+	color: #ffffff;
+	border-radius: 4px;
+	//text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+}
+.btn:hover { background-color:#ffffff;color:#8AC007; }
+textarea{ /*  定义textarea边框样式  */
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	width: 100%;
+	overflow: auto;
+	vertical-align: top;
+	resize: vertical;
+	opacity: 1;
+}
+#result{
+	border: 1px solid #CECECE;
+	background-color: #CECECE;
+	border-radius: 4px;
+	width: 100%;
+	overflow: auto;
+	vertical-align: top;
+	resize: vertical;
+	opacity: 1;
+}
+</style>
+<script src="ZeroClipboard.js"></script>
+<script src="main.js"></script>
+<script type="text/javascript">
+	//delete all the blank characters.
+	String.prototype.mtrim = function(){
+		return this.replace(/\s/g,"");
+	}
+	function format(){
+		var str=document.getElementById("abstract").value;
+		str = str.mtrim();
+		if(str==""){
+			return ;
+		}
+		var cols = parseInt(document.getElementById("cols").value);
+		var textIndent = document.getElementById("textIndent").checked;
+		if(textIndent){
+			//append the source string with additional two blank characters at head;
+			str += "  "+str;
+		}
+		var result = "";
+		for(var i=0;i<str.length;i++){
+			result += str.charAt(i);
+			if((i+1)%cols==0){
+				result += "\r\n";
+			}else{
+				result += "\t";
+			}
+		}
+		document.getElementById("result").value = result;
+	}
+	
+	function format1(){
+		 var str=document.getElementById("abstract").value;
+		 str = str.mtrim();
+		 if(str==""){
+			return ;
+		}
+		 var cols=parseInt(document.getElementById("cols").value);
+		 //判断有多少行
+		 var rows=Math.ceil(str.length/cols);
+		 //构造表格
+		 var result="<table id='table' border='1'>";
+		 for(var i=0;i<rows;i++){
+			result+="<tr>"
+			for(var j=0;j<cols;j++){
+				result+="<td></td>";
+			}
+			result+="</tr>"
+		 }
+		 result+="</table>";
+		 document.getElementById("res").innerHTML=result
+
+		 //获取表格对象
+		 var tableobj=document.getElementById("table")
+		 for(var i=0;i<str.length;i++){
+			   //根据索引判断所在的行数
+			   var rowIndex=Math.floor(i/cols);
+			   //根据索引判断所在的列数
+			   var colIndex=i%cols;
+			   //根据rowIndex和colIndex填充表格
+			   tableobj.rows[rowIndex].childNodes[colIndex].innerText=str.charAt(i);
+
+		 }
+
+	 }
+</script>
+<body>
+	<div class="divmain">
+		论文摘要：<br/><br/>
+		<textarea id="abstract" rows=10></textarea>
+		<br/><br/>
+		首行缩进
+		<input id="textIndent" type="checkbox"></input>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		每行列数：
+		<input id="cols" type="text" value="13" size="1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<input type="button" class="btn" value="格式化 >>" onclick="format()">
+		<input id="zeroCopy" type="button" class="btn" data-clipboard-target="result" value="复制结果 >>"><br/><br/>
+		<div id="res">
+			<textarea id="result" rows=15 readonly></textarea>
+		</div>
+	</div>		
+</body>
+</html>
+
+
