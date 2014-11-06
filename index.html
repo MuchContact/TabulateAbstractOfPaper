@@ -46,29 +46,37 @@ textarea{ /*  定义textarea边框样式  */
 	}
 	//格式化
 	function format(){
-		var str=document.getElementById("abstract").value;
-		str = str.mtrim();
+		var str=getSourceContent();
 		if(str==""){
 			return ;
 		}
+		var result = tabularSourceString(str);
+		setResultContent(result);
+	}
+	
+	function getSourceContent(){
+		return document.getElementById("abstract").value.mtrim();
+	}
+	
+	function tabularSourceString(source){
 		var cols = parseInt(document.getElementById("abstractionSource").value);
 		var textIndent = document.getElementById("textIndent").checked;
 		if(textIndent){
 			//append the source string with additional two blank characters at head;
-			str = "  "+str;
+			source = "  "+source;
 		}
 		var result = "";
-		for(var i=0;i<str.length;i++){
-			result += str.charAt(i);
+		for(var i=0;i<source.length;i++){
+			result += source.charAt(i);
 			if((i+1)%cols==0){
 				result += "\r\n";
 			}else{
 				result += "\t";
 			}
 		}
-		setResultContent(result);
-		//document.getElementById("result").value = result;
+		return result;
 	}
+	
 	function setResultContent(content){
 		document.getElementById("result").value = content;
 	}
