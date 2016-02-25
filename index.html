@@ -1,0 +1,103 @@
+﻿<!DOCTYPE html>
+<html>
+<meta content="text/html; charset=utf-8" ></meta>
+<style>
+body{
+	font-family: "微软雅黑", "Times New Roman", Georgia, Serif;
+}
+.divmain{
+	margin: 0 auto;
+	width: 960px;
+	//border: 1px solid #000;
+}
+.btn{
+	background-color: #8AC007;
+	color: #ffffff;
+	border-radius: 4px;
+	//text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+}
+.btn:hover { background-color:#ffffff;color:#8AC007; }
+textarea{ /*  定义textarea边框样式  */
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	width: 100%;
+	overflow: auto;
+	vertical-align: top;
+	resize: vertical;
+	opacity: 1;
+}
+#result{
+	border: 1px solid #CECECE;
+	background-color: #CECECE;
+	border-radius: 4px;
+	width: 100%;
+	overflow: auto;
+	vertical-align: top;
+	resize: vertical;
+	opacity: 1;
+}
+</style>
+<script src="ZeroClipboard.js"></script>
+<script src="main.js"></script>
+<script type="text/javascript">
+	//delete all the blank characters.
+	String.prototype.mtrim = function(){
+		return this.replace(/\s/g,"");
+	}
+	//格式化
+	function format(){
+		var str=getSourceContent();
+		if(str==""){
+			return ;
+		}
+		var result = tabularSourceString(str);
+		setResultContent(result);
+	}
+	
+	function getSourceContent(){
+		return document.getElementById("abstract").value.mtrim();
+	}
+	
+	function tabularSourceString(source){
+		var cols = parseInt(document.getElementById("abstractionSource").value);
+		var textIndent = document.getElementById("textIndent").checked;
+		if(textIndent){
+			//append the source string with additional two blank characters at head;
+			source = "  "+source;
+		}
+		var result = "";
+		for(var i=0;i<source.length;i++){
+			result += source.charAt(i);
+			if((i+1)%cols==0){
+				result += "\r\n";
+			}else{
+				result += "\t";
+			}
+		}
+		return result;
+	}
+	
+	function setResultContent(content){
+		document.getElementById("result").value = content;
+	}
+	
+</script>
+<body>
+	<div class="divmain">
+		论文摘要：<br/><br/>
+		<textarea id="abstract" rows=10></textarea>
+		<br/><br/>
+		首行缩进
+		<input id="textIndent" type="checkbox"></input>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		每行列数：
+		<input id="abstractionSource" type="text" value="13" size="1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<input type="button" class="btn" value="格式化 >>" onclick="setResultContent('');format()">
+		<input id="zeroCopy" type="button" class="btn" data-clipboard-target="result" value="复制结果 >>"><br/><br/>
+		<div id="res">
+			<textarea id="result" rows=15 readonly></textarea>
+		</div>
+	</div>		
+</body>
+</html>
+
+
