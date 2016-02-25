@@ -1,42 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <meta content="text/html; charset=utf-8" ></meta>
-<style>
-body{
-	font-family: "微软雅黑", "Times New Roman", Georgia, Serif;
-}
-.divmain{
-	margin: 0 auto;
-	width: 960px;
-	//border: 1px solid #000;
-}
-.btn{
-	background-color: #8AC007;
-	color: #ffffff;
-	border-radius: 4px;
-	//text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-}
-.btn:hover { background-color:#ffffff;color:#8AC007; }
-textarea{ /*  定义textarea边框样式  */
-	border: 1px solid #ccc;
-	border-radius: 4px;
-	width: 100%;
-	overflow: auto;
-	vertical-align: top;
-	resize: vertical;
-	opacity: 1;
-}
-#result{
-	border: 1px solid #CECECE;
-	background-color: #CECECE;
-	border-radius: 4px;
-	width: 100%;
-	overflow: auto;
-	vertical-align: top;
-	resize: vertical;
-	opacity: 1;
-}
-</style>
+<link rel="stylesheet" type="text/css" href="main.css">
 <script src="ZeroClipboard.js"></script>
 <script src="main.js"></script>
 <script type="text/javascript">
@@ -53,11 +18,11 @@ textarea{ /*  定义textarea边框样式  */
 		var result = tabularSourceString(str);
 		setResultContent(result);
 	}
-	
+
 	function getSourceContent(){
 		return document.getElementById("abstract").value.mtrim();
 	}
-	
+
 	function tabularSourceString(source){
 		var cols = parseInt(document.getElementById("abstractionSource").value);
 		var textIndent = document.getElementById("textIndent").checked;
@@ -76,11 +41,11 @@ textarea{ /*  定义textarea边框样式  */
 		}
 		return result;
 	}
-	
+
 	function setResultContent(content){
 		document.getElementById("result").value = content;
 	}
-	
+
 </script>
 <body>
 	<div class="divmain">
@@ -96,8 +61,6 @@ textarea{ /*  定义textarea边框样式  */
 		<div id="res">
 			<textarea id="result" rows=15 readonly></textarea>
 		</div>
-	</div>		
+	</div>
 </body>
 </html>
-
-
