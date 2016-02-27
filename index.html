@@ -4,49 +4,6 @@
 <link rel="stylesheet" type="text/css" href="main.css">
 <script src="ZeroClipboard.js"></script>
 <script src="main.js"></script>
-<script type="text/javascript">
-	//delete all the blank characters.
-	String.prototype.mtrim = function(){
-		return this.replace(/\s/g,"");
-	}
-	//格式化
-	function format(){
-		var str=getSourceContent();
-		if(str==""){
-			return ;
-		}
-		var result = tabularSourceString(str);
-		setResultContent(result);
-	}
-
-	function getSourceContent(){
-		return document.getElementById("abstract").value.mtrim();
-	}
-
-	function tabularSourceString(source){
-		var cols = parseInt(document.getElementById("abstractionSource").value);
-		var textIndent = document.getElementById("textIndent").checked;
-		if(textIndent){
-			//append the source string with additional two blank characters at head;
-			source = "  "+source;
-		}
-		var result = "";
-		for(var i=0;i<source.length;i++){
-			result += source.charAt(i);
-			if((i+1)%cols==0){
-				result += "\r\n";
-			}else{
-				result += "\t";
-			}
-		}
-		return result;
-	}
-
-	function setResultContent(content){
-		document.getElementById("result").value = content;
-	}
-
-</script>
 <body>
 	<div class="divmain">
 		论文摘要：<br/><br/>
