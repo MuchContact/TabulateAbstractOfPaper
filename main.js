@@ -2,10 +2,7 @@
 window.onload = function(){
 	var client = new ZeroClipboard( document.getElementById("zeroCopy") );
 }
-//delete all the blank characters.
-String.prototype.mtrim = function(){
-	return this.replace(/\s/g,"");
-}
+
 //格式化
 function format(){
 	var str=getSourceContent();
@@ -16,8 +13,38 @@ function format(){
 	setResultContent(result);
 }
 
+function splitByWord(source) {
+	var words = [];
+	var word="";
+	var index = 0;
+	for(var i=0;i<source.length;i++){
+		if(!isStopCharacter(source[i])){
+			word += source[i];
+			continue;
+		} else {
+			if(word != "") {
+				words[index++] = word;
+				word = "";
+			}
+			if(source[i] != ' ') {
+				words[index++] = source[i];
+				word = "";
+			}
+		}
+	}
+	if(word != ""){
+		words[index] = word;
+	}
+	return words;
+}
+
+function isStopCharacter(ch) {
+	var patt1 = new RegExp("^[a-zA-Z']$");
+	return !patt1.test(ch);
+}
+
 function getSourceContent(){
-	return document.getElementById("abstract").value.mtrim();
+	return document.getElementById("abstract").value.trim();
 }
 
 function tabularSourceString(source){
@@ -28,8 +55,9 @@ function tabularSourceString(source){
 		source = "  "+source;
 	}
 	var result = "";
-	for(var i=0;i<source.length;i++){
-		result += source.charAt(i);
+	var words = splitByWord(source);
+	for(var i=0;i<words.length;i++){
+		result += words[i];
 		if((i+1)%cols==0){
 			result += "\r\n";
 		}else{
